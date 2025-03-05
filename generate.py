@@ -5,12 +5,13 @@ CONST_INLINE_COMMENT = 2
 RUST_FULL = (
     "rs",
 
-    "#![allow(...)]\n\ntype string = &'static str;\n\n",
+    "#![allow(dead_code)] // disable warnings for unused code\n\n"
+    "type StringType = &'static str;\n\n",
     "",
 
     (
         "// {}",
-        "pub const {}:{} string = \"{}\";",
+        "pub const {}:{} StringType = \"{}\";",
         "// {}"
     ),
 
@@ -112,7 +113,7 @@ def py_interpret(row, use_copy):
             return CONST_INLINE_COMMENT, key, \
                    code[1:code.index("'", 1) - 1], inline_comment[3:]
 
-with open("for_importing/const.py") as origin_file:
+with open("for_importing/escape_sequences.py") as origin_file:
     lines = origin_file.read().splitlines()
 
 for use_copy in (False, True):
@@ -151,5 +152,5 @@ for use_copy in (False, True):
         output += i[2]
 
         directory = "for_copying" if use_copy else "for_importing"
-        with open(f"{directory}/const.{i[0]}", "w") as output_file:
+        with open(f"{directory}/escape_sequences.{i[0]}", "w") as output_file:
             output_file.write(output)

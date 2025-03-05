@@ -10,7 +10,7 @@ It includes both control codes and key codes. Key codes is a WIP though.
 
 There are two versions of all files, split into two directories: `for_importing` and `for_copying`. The difference is mostly formatting.
 
-Feel free to add any missing codes - this is done in the `for_importing/const.py` file, which all the other files are generated from using `generate.py`. This means the formatting in `for_importing/const.py` is important.
+Feel free to add any missing codes - this is done in the `for_importing/escape_sequences.py` file, which all the other files are generated from using `generate.py`. This means the formatting in `for_importing/escape_sequences.py` is important.
 
 Also free to add any other language, which is done easily in the `generate.py` file.
 
