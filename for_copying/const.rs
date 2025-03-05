@@ -24,10 +24,10 @@ const CUR_COL_HOME: &'static str = "\033[0G";
 const CUR_HIDE: &'static str = "\033[?25l";
 const CUR_SHOW: &'static str = "\033[?25h";
 
-const CUR_SAVE_DEC: &'static str = "\033 "; // DEC
-const CUR_RESTORE_DEC: &'static str = "\033 "; // DEC 
-const CUR_SAVE_SCO: &'static str = "\033["; // SCO
-const CUR_RESTORE_SCO: &'static str = "\033["; // SCO
+const CUR_SAVE_DEC: &'static str = "\033 7' # DE";
+const CUR_RESTORE_DEC: &'static str = "\033 8' # DEC";
+const CUR_SAVE_SCO: &'static str = "\033[s' # SC";
+const CUR_RESTORE_SCO: &'static str = "\033[u' # SC";
 
 // Screen operations
 

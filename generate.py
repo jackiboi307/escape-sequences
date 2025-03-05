@@ -101,7 +101,7 @@ def py_interpret(row, use_copy):
 
         inline_comment = code[code.index("'", 1) + 1:]
 
-        if inline_comment == "" or not use_copy:
+        if inline_comment == "" or use_copy:
             return CONST, key, code[1:-1]
 
         else:
