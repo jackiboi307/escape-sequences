@@ -102,6 +102,10 @@ def py_interpret(row, use_copy):
         inline_comment = code[code.index("'", 1) + 1:]
 
         if inline_comment == "" or use_copy:
+            if use_copy:
+                if "#" in code:
+                    code = code[:code.index("#")-1]
+
             return CONST, key, code[1:-1]
 
         else:

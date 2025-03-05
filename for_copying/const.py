@@ -24,10 +24,10 @@ CUR_COL_HOME = "\033[0G"
 CUR_HIDE = "\033[?25l"
 CUR_SHOW = "\033[?25h"
 
-CUR_SAVE_DEC = "\033 7' # DE"
-CUR_RESTORE_DEC = "\033 8' # DEC"
-CUR_SAVE_SCO = "\033[s' # SC"
-CUR_RESTORE_SCO = "\033[u' # SC"
+CUR_SAVE_DEC = "\033 7"
+CUR_RESTORE_DEC = "\033 8"
+CUR_SAVE_SCO = "\033[s"
+CUR_RESTORE_SCO = "\033[u"
 
 # Screen operations
 
