@@ -2,10 +2,25 @@ COMMENT = 0
 CONST = 1
 CONST_INLINE_COMMENT = 2
 
-RUST = (
+RUST_FULL = (
     "rs",
 
-    "#![allow(...)]\n\n",
+    "#![allow(...)]\n\ntype string = &'static str;\n\n",
+    "",
+
+    (
+        "// {}",
+        "const {}:{} string = \"{}\";",
+        "// {}"
+    ),
+
+    "{}"
+)
+
+RUST_COPY = (
+    "rs",
+
+    "",
     "",
 
     (
@@ -17,24 +32,8 @@ RUST = (
     "{}"
 )
 
-# Uses repetitive const syntax
-GO_1 = (
-    "go",
-
-    "",
-    "",
-
-    (
-        "// {}",
-        "const {}{} string = \"{}\"",
-        "// {}"
-    ),
-
-    "%s"
-)
-
 # Uses the gofmt-preferred const ( ... ) syntax
-GO_2 = (
+GO_FULL = (
     "go",
 
     "const (\n\n",
@@ -49,19 +48,48 @@ GO_2 = (
     "%s"
 )
 
-# Formatting rules
-USE_EVEN_FORMATTING = True
-LONGEST = 22 if USE_EVEN_FORMATTING else 0 # NOTE: This constant must be updated if adding longer keys to const.py
-INLINE_COMMENT_SPACING = " "
+# Uses repetitive const syntax
+GO_COPY = (
+    "go",
 
-GO = GO_2 if USE_EVEN_FORMATTING else GO_1
+    "",
+    "",
 
-FORMATS = (
-    RUST,
-    GO,
+    (
+        "// {}",
+        "const {}{} string = \"{}\"",
+        "// {}"
+    ),
+
+    "%s"
 )
 
-def py_interpret(row):
+PY_COPY = (
+    "py",
+
+    "",
+    "",
+
+    (
+        "# {}",
+        "{}{} = \"{}\"",
+        "# {}"
+    ),
+
+    "{}"
+)
+
+# Formatting rules
+LONGEST = 22 # NOTE: This constant must be updated if adding longer keys to const.py
+INLINE_COMMENT_SPACING = " "
+
+FORMATS = (
+    (RUST_FULL, RUST_COPY),
+    (GO_FULL, GO_COPY),
+    (None, PY_COPY),
+)
+
+def py_interpret(row, use_copy):
     if row[0] == "#":
         return COMMENT, row[2:]
 
@@ -73,42 +101,51 @@ def py_interpret(row):
 
         inline_comment = code[code.index("'", 1) + 1:]
 
-        if inline_comment == "" or not USE_EVEN_FORMATTING:
-            return CONST, key, code
+        if inline_comment == "" or not use_copy:
+            return CONST, key, code[1:-1]
 
         else:
-            return CONST_INLINE_COMMENT, key, code[:code.index("'", 1)], inline_comment[3:]
+            return CONST_INLINE_COMMENT, key, \
+                   code[1:code.index("'", 1) - 1], inline_comment[3:]
 
-with open("const_files/const.py") as origin_file:
+with open("for_importing/const.py") as origin_file:
     lines = origin_file.read().splitlines()
 
-for i in FORMATS:
-    output = i[1]
+for use_copy in (False, True):
+    longest = 0 if use_copy else LONGEST
 
-    for row in lines:
-        if row.isspace() or row == "":
-            output += row + "\n"
+    for i in FORMATS:
+        i = i[1] if use_copy else i[0]
+        if i is None:
+            continue
 
-        else:
-            interpreted = py_interpret(row)
+        output = i[1]
 
-            if interpreted[0] == COMMENT:
-                new = i[3][COMMENT].format(interpreted[1])
+        for row in lines:
+            if row.isspace() or row == "":
+                output += row + "\n"
 
-            elif interpreted[0] == CONST:
-                new = i[3][CONST].format(interpreted[1],
-                                         " " * (LONGEST - len(interpreted[1])),
-                                         interpreted[2].replace("{}", i[4]))
+            else:
+                interpreted = py_interpret(row, use_copy)
 
-            elif interpreted[0] == CONST_INLINE_COMMENT:
-                new = i[3][CONST].format(interpreted[1],
-                                         " " * (LONGEST - len(interpreted[1])),
-                                         interpreted[2].replace("{}", i[4])) + \
-                      INLINE_COMMENT_SPACING + i[3][CONST_INLINE_COMMENT].format(interpreted[3])
+                if interpreted[0] == COMMENT:
+                    new = i[3][COMMENT].format(interpreted[1])
 
-            output += new + "\n"
+                elif interpreted[0] == CONST:
+                    new = i[3][CONST].format(interpreted[1],
+                                             " " * (longest - len(interpreted[1])),
+                                             interpreted[2].replace("{}", i[4]))
 
-    output += i[2]
+                elif interpreted[0] == CONST_INLINE_COMMENT:
+                    new = i[3][CONST].format(interpreted[1],
+                                             " " * (longest - len(interpreted[1])),
+                                             interpreted[2].replace("{}", i[4])) + \
+                          INLINE_COMMENT_SPACING + i[3][CONST_INLINE_COMMENT].format(interpreted[3])
 
-    with open(f"const_files/const.{i[0]}", "w") as output_file:
-        output_file.write(output)
+                output += new + "\n"
+
+        output += i[2]
+
+        directory = "for_copying" if use_copy else "for_importing"
+        with open(f"{directory}/const.{i[0]}", "w") as output_file:
+            output_file.write(output)
