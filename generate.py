@@ -10,7 +10,7 @@ RUST_FULL = (
 
     (
         "// {}",
-        "const {}:{} string = \"{}\";",
+        "pub const {}:{} string = \"{}\";",
         "// {}"
     ),
 
