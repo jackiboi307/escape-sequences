@@ -1,14 +1,12 @@
-# escape-codes
+# escape-sequences
 
-Terminal escape codes in simple, nicely formatted files using string formatting syntax in different languages currently including:
+Terminal escape sequences in simple, nicely formatted files using string formatting syntax in different languages currently including:
 
 - Python
 - Rust
 - Go
 
 It includes both control codes and key codes. Key codes is a WIP though.
-
-There are also a few handy "shortcuts", like CURSOR\_DOWN\_ONE which is simply CURSOR\_DOWN with the formatting set to "1", which is a common value.
 
 There are two versions of all files, split into two directories: `for_importing` and `for_copying`. The difference is mostly formatting.
 
