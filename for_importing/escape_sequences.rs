@@ -28,10 +28,10 @@ pub const CUR_COL_HOME:           StringType = "\x1b[0G";
 pub const CUR_HIDE:               StringType = "\x1b[?25l";
 pub const CUR_SHOW:               StringType = "\x1b[?25h";
 
-pub const CUR_SAVE_DEC:           StringType = "\x1b "; // DEC
-pub const CUR_RESTORE_DEC:        StringType = "\x1b "; // DEC 
-pub const CUR_SAVE_SCO:           StringType = "\x1b["; // SCO
-pub const CUR_RESTORE_SCO:        StringType = "\x1b["; // SCO
+pub const CUR_SAVE:               StringType = "\x1b7";  // DEC
+pub const CUR_RESTORE:            StringType = "\x1b8";  // DEC 
+pub const CUR_SAVE_SCO:           StringType = "\x1b[s"; // SCO
+pub const CUR_RESTORE_SCO:        StringType = "\x1b[u"; // SCO
 
 // Screen operations
 

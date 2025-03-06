@@ -26,10 +26,10 @@ const (
     CUR_HIDE               string = "\x1b[?25l"
     CUR_SHOW               string = "\x1b[?25h"
 
-    CUR_SAVE_DEC           string = "\x1b " // DEC
-    CUR_RESTORE_DEC        string = "\x1b " // DEC 
-    CUR_SAVE_SCO           string = "\x1b[" // SCO
-    CUR_RESTORE_SCO        string = "\x1b[" // SCO
+    CUR_SAVE               string = "\x1b7"  // DEC
+    CUR_RESTORE            string = "\x1b8"  // DEC 
+    CUR_SAVE_SCO           string = "\x1b[s" // SCO
+    CUR_RESTORE_SCO        string = "\x1b[u" // SCO
 
     // Screen operations
 

@@ -24,8 +24,8 @@ const CUR_COL_HOME: &'static str = "\x1b[0G";
 const CUR_HIDE: &'static str = "\x1b[?25l";
 const CUR_SHOW: &'static str = "\x1b[?25h";
 
-const CUR_SAVE_DEC: &'static str = "\x1b 7";
-const CUR_RESTORE_DEC: &'static str = "\x1b 8";
+const CUR_SAVE: &'static str = "\x1b7'";
+const CUR_RESTORE: &'static str = "\x1b8'";
 const CUR_SAVE_SCO: &'static str = "\x1b[s";
 const CUR_RESTORE_SCO: &'static str = "\x1b[u";
 

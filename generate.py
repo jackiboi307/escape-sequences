@@ -82,7 +82,7 @@ PY_COPY = (
 
 # Formatting rules
 LONGEST = 22 # NOTE: This constant must be updated if adding longer keys to const.py
-INLINE_COMMENT_SPACING = " "
+# INLINE_COMMENT_SPACING = " "
 
 FORMATS = (
     (RUST_FULL, RUST_COPY),
@@ -102,6 +102,11 @@ def py_interpret(row, use_copy):
 
         inline_comment = code[code.index("'", 1) + 1:]
 
+        # remove spacing and calculate its length
+        pre_len = len(inline_comment)
+        inline_comment = inline_comment.lstrip()
+        diff = pre_len - len(inline_comment)
+
         if inline_comment == "" or use_copy:
             if use_copy:
                 if "#" in code:
@@ -111,7 +116,7 @@ def py_interpret(row, use_copy):
 
         else:
             return CONST_INLINE_COMMENT, key, \
-                   code[1:code.index("'", 1) - 1], inline_comment[3:]
+                   code[1:code.index("'", 1)], inline_comment[2:], " " * diff
 
 with open("for_importing/escape_sequences.py") as origin_file:
     lines = origin_file.read().splitlines()
@@ -145,7 +150,8 @@ for use_copy in (False, True):
                     new = i[3][CONST].format(interpreted[1],
                                              " " * (longest - len(interpreted[1])),
                                              interpreted[2].replace("{}", i[4])) + \
-                          INLINE_COMMENT_SPACING + i[3][CONST_INLINE_COMMENT].format(interpreted[3])
+                          interpreted[4] + \
+                          i[3][CONST_INLINE_COMMENT].format(interpreted[3])
 
                 output += new + "\n"
 

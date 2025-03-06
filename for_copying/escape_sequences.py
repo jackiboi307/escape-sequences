@@ -24,8 +24,8 @@ CUR_COL_HOME = "\x1b[0G"
 CUR_HIDE = "\x1b[?25l"
 CUR_SHOW = "\x1b[?25h"
 
-CUR_SAVE_DEC = "\x1b 7"
-CUR_RESTORE_DEC = "\x1b 8"
+CUR_SAVE = "\x1b7'"
+CUR_RESTORE = "\x1b8'"
 CUR_SAVE_SCO = "\x1b[s"
 CUR_RESTORE_SCO = "\x1b[u"
 

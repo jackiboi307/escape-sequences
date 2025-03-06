@@ -24,8 +24,8 @@ const CUR_COL_HOME string = "\x1b[0G"
 const CUR_HIDE string = "\x1b[?25l"
 const CUR_SHOW string = "\x1b[?25h"
 
-const CUR_SAVE_DEC string = "\x1b 7"
-const CUR_RESTORE_DEC string = "\x1b 8"
+const CUR_SAVE string = "\x1b7'"
+const CUR_RESTORE string = "\x1b8'"
 const CUR_SAVE_SCO string = "\x1b[s"
 const CUR_RESTORE_SCO string = "\x1b[u"
 
