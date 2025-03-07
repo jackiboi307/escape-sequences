@@ -108,10 +108,29 @@ pub const BG_WHITE_B:             StringType = "\x1b[107m";
 // Keys
 
 pub const ESCAPE:                 StringType = "\x1b";
+pub const ALT_MOD:                StringType = "\x1b";
+// Adding escape in front of most key codes gives its alt variant.
+// ALT_MOD can be used instead of ESCAPE for clarity.
+
+pub const TAB:                    StringType = "\x09";
 pub const RETURN:                 StringType = "\x0d";
 pub const BACKSPACE:              StringType = "\x7f";
-pub const TAB:                    StringType = "\x09";
-pub const TAB_SHIFT:              StringType = "\x1b[Z";
+pub const SHIFT_TAB:              StringType = "\x1b[Z";
+pub const CTRL_BACKSPACE:         StringType = "\x08";
+
+pub const HOME:                   StringType = "\x1b[H";
+pub const END:                    StringType = "\x1b[F";
+pub const PG_UP:                  StringType = "\x1b[5~";
+pub const PG_DOWN:                StringType = "\x1b[6~";
+pub const DELETE:                 StringType = "\x1b[3~";
+pub const INSERT:                 StringType = "\x1b[2~";
+
+pub const CTRL_HOME:              StringType = "\x1b[1;5H";
+pub const CTRL_END:               StringType = "\x1b[1;5F";
+pub const CTRL_PG_UP:             StringType = "\x1b[5;5~";
+pub const CTRL_PG_DOWN:           StringType = "\x1b[6;5~";
+pub const CTRL_DELETE:            StringType = "\x1b[3;5~";
+pub const CTRL_INSERT:            StringType = "\x1b[2;5~";
 
 // Arrows
 
@@ -119,15 +138,59 @@ pub const ARROW_UP:               StringType = "\x1b[A";
 pub const ARROW_DOWN:             StringType = "\x1b[B";
 pub const ARROW_LEFT:             StringType = "\x1b[D";
 pub const ARROW_RIGHT:            StringType = "\x1b[C";
-pub const ARROW_UP_SHIFT:         StringType = "\x1b[1;2A";
-pub const ARROW_DOWN_SHIFT:       StringType = "\x1b[1;2B";
-pub const ARROW_LEFT_SHIFT:       StringType = "\x1b[1;2D";
-pub const ARROW_RIGHT_SHIFT:      StringType = "\x1b[1;2C";
-pub const ARROW_UP_CTRL:          StringType = "\x1b[1;5A";
-pub const ARROW_DOWN_CTRL:        StringType = "\x1b[1;5B";
-pub const ARROW_LEFT_CTRL:        StringType = "\x1b[1;5D";
-pub const ARROW_RIGHT_CTRL:       StringType = "\x1b[1;5C";
-pub const ARROW_UP_CTRL_SHIFT:    StringType = "\x1b[1;6A";
-pub const ARROW_DOWN_CTRL_SHIFT:  StringType = "\x1b[1;6B";
-pub const ARROW_LEFT_CTRL_SHIFT:  StringType = "\x1b[1;6D";
-pub const ARROW_RIGHT_CTRL_SHIFT: StringType = "\x1b[1;6C";
+pub const SHIFT_ARROW_UP:         StringType = "\x1b[1;2A";
+pub const SHIFT_ARROW_DOWN:       StringType = "\x1b[1;2B";
+pub const SHIFT_ARROW_LEFT:       StringType = "\x1b[1;2D";
+pub const SHIFT_ARROW_RIGHT:      StringType = "\x1b[1;2C";
+pub const CTRL_ARROW_UP:          StringType = "\x1b[1;5A";
+pub const CTRL_ARROW_DOWN:        StringType = "\x1b[1;5B";
+pub const CTRL_ARROW_LEFT:        StringType = "\x1b[1;5D";
+pub const CTRL_ARROW_RIGHT:       StringType = "\x1b[1;5C";
+pub const CTRL_SHIFT_ARROW_UP:    StringType = "\x1b[1;6A";
+pub const CTRL_SHIFT_ARROW_DOWN:  StringType = "\x1b[1;6B";
+pub const CTRL_SHIFT_ARROW_LEFT:  StringType = "\x1b[1;6D";
+pub const CTRL_SHIFT_ARROW_RIGHT: StringType = "\x1b[1;6C";
+
+// Function keys
+
+pub const F1:                     StringType = "\x1bOP";
+pub const F2:                     StringType = "\x1bOQ";
+pub const F3:                     StringType = "\x1bOR";
+pub const F4:                     StringType = "\x1bOS";
+pub const F5:                     StringType = "\x1b[15~";
+pub const F6:                     StringType = "\x1b[17~";
+pub const F7:                     StringType = "\x1b[18~";
+pub const F8:                     StringType = "\x1b[19~";
+pub const F9:                     StringType = "\x1b[20~";
+pub const F10:                    StringType = "\x1b[21~";
+pub const F11:                    StringType = "\x1b[23~";
+pub const F12:                    StringType = "\x1b[24~";
+
+// Control + letter
+
+pub const CTRL_A:                 StringType = "\x01";
+pub const CTRL_B:                 StringType = "\x02";
+pub const CTRL_C:                 StringType = "\x03";
+pub const CTRL_D:                 StringType = "\x04";
+pub const CTRL_E:                 StringType = "\x05";
+pub const CTRL_F:                 StringType = "\x06";
+pub const CTRL_G:                 StringType = "\x07";
+pub const CTRL_H:                 StringType = "\x08";
+pub const CTRL_I:                 StringType = "\x09";
+pub const CTRL_J:                 StringType = "\x0a";
+pub const CTRL_K:                 StringType = "\x0b";
+pub const CTRL_L:                 StringType = "\x0c";
+pub const CTRL_M:                 StringType = "\x0d";
+pub const CTRL_N:                 StringType = "\x0e";
+pub const CTRL_O:                 StringType = "\x0f";
+pub const CTRL_P:                 StringType = "\x10";
+pub const CTRL_Q:                 StringType = "\x11";
+pub const CTRL_R:                 StringType = "\x12";
+pub const CTRL_S:                 StringType = "\x13";
+pub const CTRL_T:                 StringType = "\x14";
+pub const CTRL_U:                 StringType = "\x15";
+pub const CTRL_V:                 StringType = "\x16";
+pub const CTRL_W:                 StringType = "\x17";
+pub const CTRL_X:                 StringType = "\x18";
+pub const CTRL_Y:                 StringType = "\x19";
+pub const CTRL_Z:                 StringType = "\x1a";
