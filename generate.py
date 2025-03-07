@@ -22,7 +22,9 @@ RUST_COPY = (
     "rs",
 
     "",
-    "",
+    "\nuse\n"
+    "// This invalid row is solely to make GitHub correctly classify this file as a Rust file, and not RenderScript.\n"
+    "// The pattern for Rust files can be found here: https://github.com/github-linguist/linguist/blob/80f3531e8a1014a23f4606458e5a528053ed3cac/lib/linguist/heuristics.yml#L503-L510",
 
     (
         "// {}",
