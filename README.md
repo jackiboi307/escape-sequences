@@ -6,7 +6,7 @@ Terminal escape sequences as constants in simple, nicely formatted files using s
 - Rust
 - Go
 
-It includes both control codes and key codes. Key codes is a WIP though.
+It includes both control and key sequences. Key sequences is a WIP though.
 
 There are two versions of all files, split into two directories: `for_importing` and `for_copying`. The difference is mostly formatting.
 
@@ -30,12 +30,20 @@ The strings use the same formatting rules as the `format!` and related macros, b
 
 `CUR_SET.replacen("{}", 10, 1).replacen("{}", 20, 1)`
 
+## To do
+
+- Fix the key sequences, I based everything on my own terminal (Alacritty) but there are other standards I need to take care of.
+- Split control and key sequences into different files.
+- Move some stuff (the sequences and language formats) to JSON or some other format, instead of using Python for those purposes.
+- Use RegEx instead of whatever I am doing now in `generate.py`.
+- Add some convenient functions, including better formatting for Rust and a way to check for certain keys without handling the different standards yourself.
+
 ## Contributing
 
-Feel free to add any missing codes - this is done in the `for_importing/escape_sequences.py` file, which all the other files are generated from using `generate.py`. This means the formatting in `for_importing/escape_sequences.py` is important.
+Feel free to add any missing sequences - this is done in the `for_importing/escape_sequences.py` file, which all the other files are generated from using `generate.py`. This means the formatting in `for_importing/escape_sequences.py` is important.
 
 Also free to add any other language, which is done easily in the `generate.py` file.
 
-## Credits
+## Credits and helpful resources
 
-I'd like to thank the creator of [this gist](https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797) as I based this largely on it.
+- <https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797>
