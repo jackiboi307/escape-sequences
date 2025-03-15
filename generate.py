@@ -1,164 +1,74 @@
-COMMENT = 0
-CONST = 1
-CONST_INLINE_COMMENT = 2
+from variables import *
+from langs import *
 
-RUST_FULL = (
-    "rs",
+import re
+import os
 
-    "#![allow(dead_code)] // disable warnings for unused code\n\n"
-    "type StringType = &'static str;\n\n",
-    "",
+if DEBUG:
+    import pprint
 
-    (
-        "// {}",
-        "pub const {}:{} StringType = \"{}\";",
-        "// {}"
-    ),
-
-    "{}"
+targets = (
+    (IMPORTING, "rs", gen_rust),
+    (COPYING,   "rs", gen_rust),
+    (IMPORTING, "go", gen_go),
+    (COPYING,   "go", gen_go),
+    (COPYING,   "py", gen_python),
 )
 
-RUST_COPY = (
-    "rs",
+row_str = re.compile(r"^([a-zA-Z0-9_]+)(\s*)=\s*'([^']*)'(?:(\s*)#\s*(.*))?")
+row_arr = re.compile(r"^([a-zA-Z0-9_]+)(\s*)=\s*(\[(?:\s*'[^']*'\s*(?:,\s*)?)*\])(?:(\s*)#\s*(.*))?")
+comment = re.compile(r"^\s*#\s*(.*)")
 
-    "",
-    "\nuse\n"
-    "// This invalid row is solely to make GitHub correctly classify this file as a Rust file, and not RenderScript.\n"
-    "// The pattern for Rust files can be found here: https://github.com/github-linguist/linguist/blob/80f3531e8a1014a23f4606458e5a528053ed3cac/lib/linguist/heuristics.yml#L503-L510",
+data = []
 
-    (
-        "// {}",
-        "const {}:{} &'static str = \"{}\";",
-        "// {}"
-    ),
+with open("for_importing/escape_sequences.py") as file:
+    lines = file.read().splitlines()
 
-    "{}"
-)
+error = False
 
-# Uses the gofmt-preferred const ( ... ) syntax
-GO_FULL = (
-    "go",
+for line in lines:
+    if line == "" or line.isspace():
+        data.append({
+            "type": "blank"
+        })
 
-    "const (\n\n",
-    ")",
+    elif match := row_str.match(line):
+        data.append({
+            "type":    "str",
+            "key":     match.group(1),
+            "space":   match.group(2),
+            "string":  match.group(3),
+            "comment": match.group(5).rstrip() if match.group(5) is not None else None,
+            "comment_spacing": match.group(4) if match.group(4) is not None else None
+        })
 
-    (
-        "    // {}",
-        "    {}{} string = \"{}\"",
-        "// {}"
-    ),
+    elif match := row_arr.match(line):
+        data.append({
+            "type":   "arr",
+            "key":     match.group(1),
+            "space":   match.group(2),
+            "arr":     [repr(i)[1:-1] for i in eval(match.group(3))], # very ugly!
+            "comment": match.group(5).rstrip() if match.group(5) is not None else None,
+            "comment_spacing": match.group(4) if match.group(4) is not None else None
+        })
 
-    "%s"
-)
-
-# Uses repetitive const syntax
-GO_COPY = (
-    "go",
-
-    "",
-    "",
-
-    (
-        "// {}",
-        "const {}{} string = \"{}\"",
-        "// {}"
-    ),
-
-    "%s"
-)
-
-PY_COPY = (
-    "py",
-
-    "",
-    "",
-
-    (
-        "# {}",
-        "{}{} = \"{}\"",
-        "# {}"
-    ),
-
-    "{}"
-)
-
-# Formatting rules
-LONGEST = 22 # NOTE: This constant must be updated if adding longer keys to const.py
-# INLINE_COMMENT_SPACING = " "
-
-FORMATS = (
-    (RUST_FULL, RUST_COPY),
-    (GO_FULL, GO_COPY),
-    (None, PY_COPY),
-)
-
-def py_interpret(row, use_copy):
-    if row[0] == "#":
-        return COMMENT, row[2:]
+    elif match := comment.match(line):
+        data.append({
+            "type": "comment",
+            "text":  match.group(1)
+        })
 
     else:
-        key, code = row.split("=", 1)
+        error = True
+        print(f"Error parsing row:\n{line}\n")
 
-        key = key.rstrip()
-        code = code.lstrip()
+if DEBUG:
+    pprint.pp(data)
 
-        inline_comment = code[code.index("'", 1) + 1:]
+if error:
+    print("Errors encountered! Not continuing.")
+    exit(1)
 
-        # remove spacing and calculate its length
-        pre_len = len(inline_comment)
-        inline_comment = inline_comment.lstrip()
-        diff = pre_len - len(inline_comment)
-
-        if inline_comment == "" or use_copy:
-            if use_copy:
-                if "#" in code:
-                    code = code[:code.index("#")-1]
-
-            return CONST, key, code[1:-1]
-
-        else:
-            return CONST_INLINE_COMMENT, key, \
-                   code[1:code.index("'", 1)], inline_comment[2:], " " * diff
-
-with open("for_importing/escape_sequences.py") as origin_file:
-    lines = origin_file.read().splitlines()
-
-for use_copy in (False, True):
-    longest = 0 if use_copy else LONGEST
-
-    for i in FORMATS:
-        i = i[1] if use_copy else i[0]
-        if i is None:
-            continue
-
-        output = i[1]
-
-        for row in lines:
-            if row.isspace() or row == "":
-                output += row + "\n"
-
-            else:
-                interpreted = py_interpret(row, use_copy)
-
-                if interpreted[0] == COMMENT:
-                    new = i[3][COMMENT].format(interpreted[1])
-
-                elif interpreted[0] == CONST:
-                    new = i[3][CONST].format(interpreted[1],
-                                             " " * (longest - len(interpreted[1])),
-                                             interpreted[2].replace("{}", i[4]))
-
-                elif interpreted[0] == CONST_INLINE_COMMENT:
-                    new = i[3][CONST].format(interpreted[1],
-                                             " " * (longest - len(interpreted[1])),
-                                             interpreted[2].replace("{}", i[4])) + \
-                          interpreted[4] + \
-                          i[3][CONST_INLINE_COMMENT].format(interpreted[3])
-
-                output += new + "\n"
-
-        output += i[2]
-
-        directory = "for_copying" if use_copy else "for_importing"
-        with open(f"{directory}/escape_sequences.{i[0]}", "w") as output_file:
-            output_file.write(output)
+for target in targets:
+    with open(os.path.join(PATHS[target[0]], FILENAME + "." + target[1]), "w") as file:
+        file.write(target[2](data, target[0]))

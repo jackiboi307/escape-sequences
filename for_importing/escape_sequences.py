@@ -114,19 +114,12 @@ BACKSPACE              = '\x7f'
 SHIFT_TAB              = '\x1b[Z'
 CTRL_BACKSPACE         = '\x08'
 
-HOME                   = '\x1b[H'
-END                    = '\x1b[F'
+HOME                   = ['\x1b[1', '\x1b[H']
+END                    = ['\x1b[4', '\x1b[F']
 PG_UP                  = '\x1b[5~'
 PG_DOWN                = '\x1b[6~'
 DELETE                 = '\x1b[3~'
 INSERT                 = '\x1b[2~'
-
-CTRL_HOME              = '\x1b[1;5H'
-CTRL_END               = '\x1b[1;5F'
-CTRL_PG_UP             = '\x1b[5;5~'
-CTRL_PG_DOWN           = '\x1b[6;5~'
-CTRL_DELETE            = '\x1b[3;5~'
-CTRL_INSERT            = '\x1b[2;5~'
 
 # Arrows
 
@@ -149,10 +142,10 @@ CTRL_SHIFT_ARROW_RIGHT = '\x1b[1;6C'
 
 # Function keys
 
-F1                     = '\x1bOP'
-F2                     = '\x1bOQ'
-F3                     = '\x1bOR'
-F4                     = '\x1bOS'
+F1                     = ['\x1bOP', '\x1b[11~']
+F2                     = ['\x1bOQ', '\x1b[12~']
+F3                     = ['\x1bOR', '\x1b[13~']
+F4                     = ['\x1bOS', '\x1b[14~']
 F5                     = '\x1b[15~'
 F6                     = '\x1b[17~'
 F7                     = '\x1b[18~'

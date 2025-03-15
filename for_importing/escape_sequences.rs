@@ -4,7 +4,7 @@ type StringType = &'static str;
 
 // Control codes
 
-pub const BELL:                   StringType = "\x07";
+pub const BELL: StringType = "\x07";
 
 // Cursor control
 
@@ -29,7 +29,7 @@ pub const CUR_HIDE:               StringType = "\x1b[?25l";
 pub const CUR_SHOW:               StringType = "\x1b[?25h";
 
 pub const CUR_SAVE:               StringType = "\x1b7";  // DEC
-pub const CUR_RESTORE:            StringType = "\x1b8";  // DEC 
+pub const CUR_RESTORE:            StringType = "\x1b8";  // DEC
 pub const CUR_SAVE_SCO:           StringType = "\x1b[s"; // SCO
 pub const CUR_RESTORE_SCO:        StringType = "\x1b[u"; // SCO
 
@@ -118,19 +118,12 @@ pub const BACKSPACE:              StringType = "\x7f";
 pub const SHIFT_TAB:              StringType = "\x1b[Z";
 pub const CTRL_BACKSPACE:         StringType = "\x08";
 
-pub const HOME:                   StringType = "\x1b[H";
-pub const END:                    StringType = "\x1b[F";
+pub const HOME:                   [StringType; 2] = ["\x1b[1", "\x1b[H"];
+pub const END:                    [StringType; 2] = ["\x1b[4", "\x1b[F"];
 pub const PG_UP:                  StringType = "\x1b[5~";
 pub const PG_DOWN:                StringType = "\x1b[6~";
 pub const DELETE:                 StringType = "\x1b[3~";
 pub const INSERT:                 StringType = "\x1b[2~";
-
-pub const CTRL_HOME:              StringType = "\x1b[1;5H";
-pub const CTRL_END:               StringType = "\x1b[1;5F";
-pub const CTRL_PG_UP:             StringType = "\x1b[5;5~";
-pub const CTRL_PG_DOWN:           StringType = "\x1b[6;5~";
-pub const CTRL_DELETE:            StringType = "\x1b[3;5~";
-pub const CTRL_INSERT:            StringType = "\x1b[2;5~";
 
 // Arrows
 
@@ -153,10 +146,10 @@ pub const CTRL_SHIFT_ARROW_RIGHT: StringType = "\x1b[1;6C";
 
 // Function keys
 
-pub const F1:                     StringType = "\x1bOP";
-pub const F2:                     StringType = "\x1bOQ";
-pub const F3:                     StringType = "\x1bOR";
-pub const F4:                     StringType = "\x1bOS";
+pub const F1:                     [StringType; 2] = ["\x1bOP", "\x1b[11~"];
+pub const F2:                     [StringType; 2] = ["\x1bOQ", "\x1b[12~"];
+pub const F3:                     [StringType; 2] = ["\x1bOR", "\x1b[13~"];
+pub const F4:                     [StringType; 2] = ["\x1bOS", "\x1b[14~"];
 pub const F5:                     StringType = "\x1b[15~";
 pub const F6:                     StringType = "\x1b[17~";
 pub const F7:                     StringType = "\x1b[18~";

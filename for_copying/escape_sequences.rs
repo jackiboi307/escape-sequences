@@ -24,8 +24,8 @@ const CUR_COL_HOME: &'static str = "\x1b[0G";
 const CUR_HIDE: &'static str = "\x1b[?25l";
 const CUR_SHOW: &'static str = "\x1b[?25h";
 
-const CUR_SAVE: &'static str = "\x1b7'";
-const CUR_RESTORE: &'static str = "\x1b8'";
+const CUR_SAVE: &'static str = "\x1b7";
+const CUR_RESTORE: &'static str = "\x1b8";
 const CUR_SAVE_SCO: &'static str = "\x1b[s";
 const CUR_RESTORE_SCO: &'static str = "\x1b[u";
 
@@ -114,19 +114,12 @@ const BACKSPACE: &'static str = "\x7f";
 const SHIFT_TAB: &'static str = "\x1b[Z";
 const CTRL_BACKSPACE: &'static str = "\x08";
 
-const HOME: &'static str = "\x1b[H";
-const END: &'static str = "\x1b[F";
+const HOME: [&'static str; 2] = ["\x1b[1", "\x1b[H"];
+const END: [&'static str; 2] = ["\x1b[4", "\x1b[F"];
 const PG_UP: &'static str = "\x1b[5~";
 const PG_DOWN: &'static str = "\x1b[6~";
 const DELETE: &'static str = "\x1b[3~";
 const INSERT: &'static str = "\x1b[2~";
-
-const CTRL_HOME: &'static str = "\x1b[1;5H";
-const CTRL_END: &'static str = "\x1b[1;5F";
-const CTRL_PG_UP: &'static str = "\x1b[5;5~";
-const CTRL_PG_DOWN: &'static str = "\x1b[6;5~";
-const CTRL_DELETE: &'static str = "\x1b[3;5~";
-const CTRL_INSERT: &'static str = "\x1b[2;5~";
 
 // Arrows
 
@@ -149,10 +142,10 @@ const CTRL_SHIFT_ARROW_RIGHT: &'static str = "\x1b[1;6C";
 
 // Function keys
 
-const F1: &'static str = "\x1bOP";
-const F2: &'static str = "\x1bOQ";
-const F3: &'static str = "\x1bOR";
-const F4: &'static str = "\x1bOS";
+const F1: [&'static str; 2] = ["\x1bOP", "\x1b[11~"];
+const F2: [&'static str; 2] = ["\x1bOQ", "\x1b[12~"];
+const F3: [&'static str; 2] = ["\x1bOR", "\x1b[13~"];
+const F4: [&'static str; 2] = ["\x1bOS", "\x1b[14~"];
 const F5: &'static str = "\x1b[15~";
 const F6: &'static str = "\x1b[17~";
 const F7: &'static str = "\x1b[18~";
@@ -192,5 +185,6 @@ const CTRL_Y: &'static str = "\x19";
 const CTRL_Z: &'static str = "\x1a";
 
 use
-// This invalid row is solely to make GitHub correctly classify this file as a Rust file, and not RenderScript.
+// This invalid row exists solely to make GitHub correctly classify this file as a Rust file, and not RenderScript.
+// You're not supposed to compile this file anyway - see for_importing/escape_sequences.rs if that's what you are looking for.
 // The pattern for Rust files can be found here: https://github.com/github-linguist/linguist/blob/80f3531e8a1014a23f4606458e5a528053ed3cac/lib/linguist/heuristics.yml#L503-L510
