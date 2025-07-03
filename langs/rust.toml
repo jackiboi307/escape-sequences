@@ -1,0 +1,17 @@
+name = "rust"
+ext = "rs"
+
+file_beg = "#![allow(dead_code)] // disable warnings for unused code\n"
+file_end = ""
+
+format   = "{}"
+
+code_beg = "const {key}:"
+code_end = " &'static str = \"{value}\";"
+
+arr_beg  = "const {key}:"
+arr_mid  = " [&'static str; 2] = [\""
+arr_sep  = "\", \""
+arr_end  = "\"];"
+
+comment  = "//"

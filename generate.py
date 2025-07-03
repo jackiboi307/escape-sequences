@@ -1,74 +1,133 @@
-from variables import *
-from langs import *
-
-import re
 import os
+import shutil
+import tomllib
+import traceback
 
-if DEBUG:
-    import pprint
+OUTPUT_DIR = "escape_sequences"
 
-targets = (
-    (IMPORTING, "rs", gen_rust),
-    (COPYING,   "rs", gen_rust),
-    (IMPORTING, "go", gen_go),
-    (COPYING,   "go", gen_go),
-    (COPYING,   "py", gen_python),
-)
+def format(string, **kwargs):
+    for kwarg in kwargs:
+        string = string.replace("{" + kwarg + "}", kwargs[kwarg])
+    return string
 
-row_str = re.compile(r"^([a-zA-Z0-9_]+)(\s*)=\s*'([^']*)'(?:(\s*)#\s*(.*))?")
-row_arr = re.compile(r"^([a-zA-Z0-9_]+)(\s*)=\s*(\[(?:\s*'[^']*'\s*(?:,\s*)?)*\])(?:(\s*)#\s*(.*))?")
-comment = re.compile(r"^\s*#\s*(.*)")
+langs = []
 
-data = []
+for filename in os.listdir("langs"):
+    if os.path.isfile(os.path.join("langs", filename)):
+        with open(os.path.join("langs", filename), "rb") as file:
+            langs.append(tomllib.load(file))
 
-with open("for_importing/escape_sequences.py") as file:
-    lines = file.read().splitlines()
+datas = {}
 
-error = False
+for filename in os.listdir("data"):
+    name = filename.split(".")[0]
+    datas[name] = []
+    data = datas[name]
 
-for line in lines:
-    if line == "" or line.isspace():
-        data.append({
-            "type": "blank"
-        })
+    with open(os.path.join("data", filename)) as file:
+        lines = file.read().splitlines()
 
-    elif match := row_str.match(line):
-        data.append({
-            "type":    "str",
-            "key":     match.group(1),
-            "space":   match.group(2),
-            "string":  match.group(3),
-            "comment": match.group(5).rstrip() if match.group(5) is not None else None,
-            "comment_spacing": match.group(4) if match.group(4) is not None else None
-        })
+        for line in lines:
+            if line == "":
+                data.append({
+                    "type": "blank"
+                })
 
-    elif match := row_arr.match(line):
-        data.append({
-            "type":   "arr",
-            "key":     match.group(1),
-            "space":   match.group(2),
-            "arr":     [repr(i)[1:-1] for i in eval(match.group(3))], # very ugly!
-            "comment": match.group(5).rstrip() if match.group(5) is not None else None,
-            "comment_spacing": match.group(4) if match.group(4) is not None else None
-        })
+            elif line[0] == "#":
+                data.append({
+                    "type": "comment",
+                    "text": line[1:]
+                })
 
-    elif match := comment.match(line):
-        data.append({
-            "type": "comment",
-            "text":  match.group(1)
-        })
+            else:
+                spl = line.split(" ")
+                key = spl[0]
+                values = spl[1:]
+                arr = len(values) > 1
 
-    else:
-        error = True
-        print(f"Error parsing row:\n{line}\n")
+                if arr:
+                    data.append({
+                        "type": "arr",
+                        "key": key,
+                        "values": values
+                    })
 
-if DEBUG:
-    pprint.pp(data)
+                else:
+                    data.append({
+                        "type": "code",
+                        "key": key,
+                        "value": values[0]
+                    })
 
-if error:
-    print("Errors encountered! Not continuing.")
-    exit(1)
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-for target in targets:
-    with open(os.path.join(PATHS[target[0]], FILENAME + "." + target[1]), "w") as file:
-        file.write(target[2](data, target[0]))
+for lang in langs:
+    print(f"Generating {lang['name']} file...")
+
+    try:
+        files = {}
+
+        for name in datas:
+            data = datas[name]
+
+            files[name] = [[lang["file_beg"]]] if lang["file_beg"] != "" else []
+            output = files[name]
+
+            for row in data:
+                t = row["type"]
+
+                if t == "blank":
+                    output.append([])
+                
+                elif t == "comment":
+                    output.append([lang["comment"] + row["text"]])
+
+                else:
+                    args = dict(key=row["key"])
+
+                    if t == "code":
+                        value = row["value"]
+                        value.replace("{}", lang["format"])
+                        args = args | dict(value=value)
+                        output.append([
+                            format(lang["code_beg"], **args),
+                            format(lang["code_end"], **args)
+                        ])
+
+                    elif t == "arr":
+                        values = row["values"]
+                        values = [value.replace("{}", lang["format"]) for value in values]
+                        output.append([
+                            format(lang["arr_beg"], **args),
+                            format(lang["arr_mid"], **args) + \
+                                lang["arr_sep"].join(values) + \
+                            format(lang["arr_end"], **args)
+                        ])
+
+        longest_beg = max([len(line[0]) for line in sum(files.values(), []) if len(line) > 1])
+
+        for name in files:
+            output = files[name]
+
+            for line in output:
+                if len(line) > 1:
+                    line.insert(1, " " * (longest_beg - len(line[0])))
+
+            output.append([lang["file_end"]])
+            output = "\n".join(["".join(line) for line in output])
+
+            os.makedirs(os.path.join(OUTPUT_DIR, lang["name"]), exist_ok=True)
+
+            with open(os.path.join(
+                    OUTPUT_DIR,
+                    lang["name"],
+                    name + "." + lang["ext"]), "w") as file:
+                file.write(output)
+    
+    except Exception as e:
+        traceback.print_exc()
+        try:
+            shutil.rmtree(os.path.join(OUTPUT_DIR, lang["name"]))
+        except FileNotFoundError:
+            pass
+

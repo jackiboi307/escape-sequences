@@ -1,0 +1,17 @@
+name = "python"
+ext = "py"
+
+file_beg = ""
+file_end = ""
+
+format   = "{}"
+
+code_beg = "{key}"
+code_end = " = '{value}'"
+
+arr_beg  = "{key}"
+arr_mid  = " = ['"
+arr_sep  = "', '"
+arr_end  = "']"
+
+comment  = "#"

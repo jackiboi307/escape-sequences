@@ -1,0 +1,17 @@
+name = "go"
+ext = "go"
+
+file_beg = "package main\n"
+file_end = ""
+
+format   = "%s"
+
+code_beg = "const {key} string"
+code_end = " = '{value}'"
+
+arr_beg  = "var   {key}"
+arr_mid  = " = []string{'"
+arr_sep  = "', '"
+arr_end  = "'}"
+
+comment  = "//"
