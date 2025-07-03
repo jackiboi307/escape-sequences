@@ -13,9 +13,8 @@ def format(string, **kwargs):
 langs = []
 
 for filename in os.listdir("langs"):
-    if os.path.isfile(os.path.join("langs", filename)):
-        with open(os.path.join("langs", filename), "rb") as file:
-            langs.append(tomllib.load(file))
+    with open(os.path.join("langs", filename), "rb") as file:
+        langs.append(tomllib.load(file))
 
 datas = {}
 
@@ -40,7 +39,7 @@ for filename in os.listdir("data"):
                 })
 
             else:
-                spl = line.split(" ")
+                spl = line.split()
                 key = spl[0]
                 values = spl[1:]
                 arr = len(values) > 1
