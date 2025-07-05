@@ -125,8 +125,8 @@ for lang in langs:
     
     except Exception as e:
         traceback.print_exc()
-        try:
-            shutil.rmtree(os.path.join(OUTPUT_DIR, lang["name"]))
-        except FileNotFoundError:
-            pass
+        # try:
+        #     shutil.rmtree(os.path.join(OUTPUT_DIR, lang["name"]))
+        # except FileNotFoundError:
+        #     pass
 
