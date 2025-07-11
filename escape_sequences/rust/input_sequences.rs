@@ -3,9 +3,9 @@
 // Keys
 
 const ESCAPE:                 &'static str = "\x1b";
-const ALT_MOD:                &'static str = "\x1b";
+const ALT:                    &'static str = "\x1b";
 // Adding escape in front of most key codes gives its alt variant.
-// ALT_MOD can be used instead of ESCAPE for clarity.
+// ALT can be used instead of ESCAPE for clarity.
 
 const TAB:                    &'static str = "\x09";
 const RETURN:                 &'static str = "\x0d";

@@ -1,9 +1,9 @@
 # Keys
 
 ESCAPE                 = '\x1b'
-ALT_MOD                = '\x1b'
+ALT                    = '\x1b'
 # Adding escape in front of most key codes gives its alt variant.
-# ALT_MOD can be used instead of ESCAPE for clarity.
+# ALT can be used instead of ESCAPE for clarity.
 
 TAB                    = '\x09'
 RETURN                 = '\x0d'
