@@ -7,11 +7,11 @@ file_end = ""
 format   = "%s"
 
 code_beg = "const {key} string"
-code_end = " = '{value}'"
+code_end = " = \"{value}\""
 
 arr_beg  = "var   {key}"
-arr_mid  = " = []string{'"
-arr_sep  = "', '"
-arr_end  = "'}"
+arr_mid  = " = []string{\""
+arr_sep  = "\", \""
+arr_end  = "\"}"
 
 comment  = "//"
