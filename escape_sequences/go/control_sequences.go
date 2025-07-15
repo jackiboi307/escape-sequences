@@ -7,14 +7,14 @@ const BELL string                   = "\x07"
 // Cursor control
 
 const CUR_HOME string               = "\x1b[H"
-const CUR_SET string                = "\x1b[{};{}H"
-const CUR_UP string                 = "\x1b[{}A"
-const CUR_DOWN string               = "\x1b[{}B"
-const CUR_RIGHT string              = "\x1b[{}C"
-const CUR_LEFT string               = "\x1b[{}D"
-const CUR_DOWN_BEG string           = "\x1b[{}E"
-const CUR_UP_BEG string             = "\x1b[{}F"
-const CUR_COL string                = "\x1b[{}G"
+const CUR_SET string                = "\x1b[%s;%sH"
+const CUR_UP string                 = "\x1b[%sA"
+const CUR_DOWN string               = "\x1b[%sB"
+const CUR_RIGHT string              = "\x1b[%sC"
+const CUR_LEFT string               = "\x1b[%sD"
+const CUR_DOWN_BEG string           = "\x1b[%sE"
+const CUR_UP_BEG string             = "\x1b[%sF"
+const CUR_COL string                = "\x1b[%sG"
 
 const CUR_UP_ONE string             = "\x1b[1A"
 const CUR_DOWN_ONE string           = "\x1b[1B"
@@ -53,13 +53,13 @@ const STRIKE string                 = "\x1b[9m"
 
 // 256 colors
 
-const FG_ID string                  = "\x1b[38;5;{}m"
-const BG_ID string                  = "\x1b[48;5;{}m"
+const FG_ID string                  = "\x1b[38;5;%sm"
+const BG_ID string                  = "\x1b[48;5;%sm"
 
 // True color
 
-const FG_RGB string                 = "\x1b[38;2;{};{};{}m"
-const BG_RGB string                 = "\x1b[48;2;{};{};{}m"
+const FG_RGB string                 = "\x1b[38;2;%s;%s;%sm"
+const BG_RGB string                 = "\x1b[48;2;%s;%s;%sm"
 
 // 16 color codes
 
