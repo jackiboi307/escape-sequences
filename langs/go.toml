@@ -9,7 +9,9 @@ format   = "%s"
 code_beg = "const {key} string"
 code_end = " = \"{value}\""
 
-arr_beg  = "var   {key}"
+# aligned with const:
+# arr_beg  = "var   {key}"
+arr_beg  = "var {key}"
 arr_mid  = " = []string{\""
 arr_sep  = "\", \""
 arr_end  = "\"}"

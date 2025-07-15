@@ -6,10 +6,10 @@ file_end = ""
 
 format   = "{}"
 
-code_beg = "const {key}:"
+code_beg = "pub const {key}:"
 code_end = " &'static str = \"{value}\";"
 
-arr_beg  = "const {key}:"
+arr_beg  = "pub const {key}:"
 arr_mid  = " [&'static str; 2] = [\""
 arr_sep  = "\", \""
 arr_end  = "\"];"

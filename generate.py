@@ -3,7 +3,8 @@ import shutil
 import tomllib
 import traceback
 
-OUTPUT_DIR = "escape_sequences"
+with open("config.toml", "rb") as file:
+    config = tomllib.load(file)
 
 def format(string, **kwargs):
     for kwarg in kwargs:
@@ -58,7 +59,7 @@ for filename in os.listdir("data"):
                         "value": values[0]
                     })
 
-os.makedirs(OUTPUT_DIR, exist_ok=True)
+os.makedirs(config["output_dir"], exist_ok=True)
 
 for lang in langs:
     print(f"Generating {lang['name']} file...")
@@ -108,17 +109,18 @@ for lang in langs:
         for name in files:
             output = files[name]
 
-            for line in output:
-                if len(line) > 1:
-                    line.insert(1, " " * (longest_beg - len(line[0])))
+            if config["align"]:
+                for line in output:
+                    if len(line) > 1:
+                        line.insert(1, " " * (longest_beg - len(line[0])))
 
             output.append([lang["file_end"]])
             output = "\n".join(["".join(line) for line in output])
 
-            os.makedirs(os.path.join(OUTPUT_DIR, lang["name"]), exist_ok=True)
+            os.makedirs(os.path.join(config["output_dir"], lang["name"]), exist_ok=True)
 
             with open(os.path.join(
-                    OUTPUT_DIR,
+                    config["output_dir"],
                     lang["name"],
                     name + "." + lang["ext"]), "w") as file:
                 file.write(output)
@@ -126,7 +128,7 @@ for lang in langs:
     except Exception as e:
         traceback.print_exc()
         # try:
-        #     shutil.rmtree(os.path.join(OUTPUT_DIR, lang["name"]))
+        #     shutil.rmtree(os.path.join(config["output_dir"], lang["name"]))
         # except FileNotFoundError:
         #     pass
 
