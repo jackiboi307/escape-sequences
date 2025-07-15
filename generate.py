@@ -78,7 +78,7 @@ for lang in langs:
 
                 if t == "blank":
                     output.append([])
-                
+
                 elif t == "comment":
                     output.append([lang["comment"] + row["text"]])
 
@@ -87,7 +87,7 @@ for lang in langs:
 
                     if t == "code":
                         value = row["value"]
-                        value.replace("{}", lang["format"])
+                        value = value.replace("{}", lang["format"])
                         args = args | dict(value=value)
                         output.append([
                             format(lang["code_beg"], **args),
@@ -96,7 +96,7 @@ for lang in langs:
 
                     elif t == "arr":
                         values = row["values"]
-                        values = [value.replace("{}", lang["format"]) for value in values]
+                        # values = [value.replace("{}", lang["format"]) for value in values]
                         output.append([
                             format(lang["arr_beg"], **args),
                             format(lang["arr_mid"], **args) + \
