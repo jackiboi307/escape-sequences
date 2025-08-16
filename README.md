@@ -28,7 +28,7 @@ macro_rules! printf {
 
 Use them like this:
 
-```
+```rust
 printf!(
     "{FG_RGB}{BG_RGB}Yellow text against a red background{RESET}\n",
     255, 255, 0,
