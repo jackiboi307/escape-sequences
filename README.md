@@ -6,7 +6,7 @@ I will add more sequences and languages when I have the need to, but feel free t
 
 ## Rust macros
 
-The control sequences that accept arguments (`FG_RGB`, etc.) can not be used with the Rust formatter, despite using the same `{}` format. This is because Rust macros do not expand their arguments. Instead, you can use the below macros when necessary.
+The control sequences that accept arguments (`FG_RGB`, etc.) can not be used with the Rust formatter, despite using the same `{}` syntax. This is because Rust macros do not expand their arguments. Instead, you can use the below macros when necessary.
 
 ```rust
 macro_rules! formatf {
