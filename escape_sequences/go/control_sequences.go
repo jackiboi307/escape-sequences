@@ -1,5 +1,8 @@
 package main
 
+// License: https://unlicense.org/
+// Source:  https://github.com/jackiboi307/escape-sequences
+
 // Control codes
 
 const BELL string = "\x07"

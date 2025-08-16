@@ -1,5 +1,8 @@
 #![allow(dead_code)] // disable warnings for unused code
 
+// License: https://unlicense.org/
+// Source:  https://github.com/jackiboi307/escape-sequences
+
 // Control codes
 
 pub const BELL: &'static str = "\x07";

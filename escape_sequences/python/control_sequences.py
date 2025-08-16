@@ -1,3 +1,6 @@
+# License: https://unlicense.org/
+# Source:  https://github.com/jackiboi307/escape-sequences
+
 # Control codes
 
 BELL = '\x07'
