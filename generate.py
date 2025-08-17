@@ -3,6 +3,11 @@ import shutil
 import tomllib
 import traceback
 
+HEADER = (
+    " License: https://unlicense.org/",
+    " Source:  https://github.com/jackiboi307/escape-sequences",
+)
+
 with open("config.toml", "rb") as file:
     config = tomllib.load(file)
 
@@ -70,8 +75,13 @@ for lang in langs:
         for name in datas:
             data = datas[name]
 
-            files[name] = [[lang["file_beg"]]] if lang["file_beg"] != "" else []
+            # files[name] = [[lang["file_beg"]]] if lang["file_beg"] != "" else []
+            files[name] = []
             output = files[name]
+
+            output += [lang["comment"] + i for i in HEADER]
+            output += [""]
+            output += [[lang["file_beg"]]] if lang["file_beg"] != "" else []
 
             for row in data:
                 t = row["type"]
@@ -123,6 +133,7 @@ for lang in langs:
                     config["output_dir"],
                     lang["name"],
                     name + "." + lang["ext"]), "w") as file:
+
                 file.write(output)
     
     except Exception as e:

@@ -1,7 +1,7 @@
-#![allow(dead_code)] // disable warnings for unused code
-
 // License: https://unlicense.org/
 // Source:  https://github.com/jackiboi307/escape-sequences
+
+#![allow(dead_code)] // disable warnings for unused code
 
 // Control codes
 

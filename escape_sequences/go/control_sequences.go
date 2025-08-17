@@ -1,7 +1,7 @@
-package main
-
 // License: https://unlicense.org/
 // Source:  https://github.com/jackiboi307/escape-sequences
+
+package main
 
 // Control codes
 
